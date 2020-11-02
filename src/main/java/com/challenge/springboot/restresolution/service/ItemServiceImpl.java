@@ -12,7 +12,7 @@ import java.util.List;
 @Service
 public class ItemServiceImpl implements ItemService{
 
-  private ItemDAO itemDAO;
+  private final ItemDAO itemDAO;
 
   @Autowired
   public ItemServiceImpl(ItemDAO itemDAO) {
@@ -41,5 +41,23 @@ public class ItemServiceImpl implements ItemService{
   @Transactional
   public void deleteById(int id) {
     itemDAO.deleteById(id);
+  }
+
+  @Override
+  @Transactional
+  public List<Item> findByName(String itemName) {
+    return itemDAO.findByName(itemName);
+  }
+
+  @Override
+  @Transactional
+  public List<Item> findByPriceRange(Double minValue, Double maxValue) {
+    return itemDAO.findByPriceRange(minValue, maxValue);
+  }
+
+  @Override
+  @Transactional
+  public List<Item> findByOwnerId(long ownerId) {
+    return itemDAO.findByOwnerId(ownerId);
   }
 }

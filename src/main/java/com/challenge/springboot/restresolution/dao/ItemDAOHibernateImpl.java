@@ -49,4 +49,30 @@ public class ItemDAOHibernateImpl implements ItemDAO{
 
     theQuery.executeUpdate();
   }
+
+  @Override
+  public List<Item> findByName(String itemName) {
+    Session currentSession = entityManager.unwrap(Session.class);
+    Query<Item> theQuery = currentSession.createQuery("from Item where name like :itemName", Item.class);
+    itemName = "%"+itemName+"%";
+    theQuery.setParameter("itemName",itemName);
+    return theQuery.getResultList();
+  }
+
+  @Override
+  public List<Item> findByPriceRange(Double minValue, Double maxValue) {
+    Session currentSession = entityManager.unwrap(Session.class);
+    Query<Item> theQuery = currentSession.createQuery("from Item where (:minValue is null or price >= :minValue) and (:maxValue is null or price <= :maxValue)", Item.class);
+    theQuery.setParameter("minValue",minValue);
+    theQuery.setParameter("maxValue",maxValue);
+    return theQuery.getResultList();
+  }
+
+  @Override
+  public List<Item> findByOwnerId(long ownerId) {
+    Session currentSession = entityManager.unwrap(Session.class);
+    Query<Item> theQuery = currentSession.createQuery("from Item where ownerIdFk = :ownerId", Item.class);
+    theQuery.setParameter("ownerId", ownerId);
+    return theQuery.getResultList();
+  }
 }

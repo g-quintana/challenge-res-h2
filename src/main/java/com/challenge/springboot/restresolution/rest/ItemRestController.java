@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.sql.Timestamp;
@@ -21,7 +22,7 @@ import java.util.List;
 
 @ApiOperation(value = "/marketplace/v1/items", tags = "Items Controller")
 @RestController
-@RequestMapping("/marketplace/v1/items")
+@RequestMapping("/items")
 public class ItemRestController {
 
   private final ItemService itemService;
@@ -104,5 +105,41 @@ public class ItemRestController {
     }
     itemService.deleteById(itemId);
     return "Deleted item id - " + itemId;
+  }
+
+  @ApiOperation(value = "Get Items like name", response = Iterable.class)
+  @ApiResponses(value = {
+      @ApiResponse(code = 200, message = "SUCCESS", response = Item.class),
+      @ApiResponse(code = 401, message = "UNAUTHORIZED!", response = ErrorResponse.class),
+      @ApiResponse(code = 403, message = "FORBIDDEN!", response = ErrorResponse.class),
+      @ApiResponse(code = 404, message = "NOT FOUND", response = ErrorResponse.class)
+  })
+  @GetMapping(value = "/byname/{itemName}", produces = MediaType.APPLICATION_JSON_VALUE)
+  public List<Item> findLikeName(@PathVariable String itemName) {
+    return itemService.findByName(itemName);
+  }
+
+  @ApiOperation(value = "Get Items by price range", response = Iterable.class)
+  @ApiResponses(value = {
+      @ApiResponse(code = 200, message = "SUCCESS", response = Item.class),
+      @ApiResponse(code = 401, message = "UNAUTHORIZED!", response = ErrorResponse.class),
+      @ApiResponse(code = 403, message = "FORBIDDEN!", response = ErrorResponse.class),
+      @ApiResponse(code = 404, message = "NOT FOUND", response = ErrorResponse.class)
+  })
+  @GetMapping(value = "/bypricerange", produces = MediaType.APPLICATION_JSON_VALUE)
+  public List<Item> findByPriceRange(@RequestParam(required = false) Double minValue, @RequestParam(required = false) Double maxValue) {
+    return itemService.findByPriceRange(minValue, maxValue);
+  }
+
+  @ApiOperation(value = "Get Items by Owner Id", response = Iterable.class)
+  @ApiResponses(value = {
+      @ApiResponse(code = 200, message = "SUCCESS", response = Item.class),
+      @ApiResponse(code = 401, message = "UNAUTHORIZED!", response = ErrorResponse.class),
+      @ApiResponse(code = 403, message = "FORBIDDEN!", response = ErrorResponse.class),
+      @ApiResponse(code = 404, message = "NOT FOUND", response = ErrorResponse.class)
+  })
+  @GetMapping(value = "/byownerid/{ownerId}", produces = MediaType.APPLICATION_JSON_VALUE)
+  public List<Item> findByOwnerId(@PathVariable long ownerId) {
+    return itemService.findByOwnerId(ownerId);
   }
 }

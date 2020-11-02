@@ -20,8 +20,8 @@ CREATE TABLE `item` (
 
 INSERT INTO `item` VALUES 
 	(1,'Lapiceras','BIC',1,DEFAULT,DEFAULT,'PUBLISHED',123.45,'ARS',1),
-	(2,'Lamparas','Phillips',1,DEFAULT,DEFAULT,'PUBLISHED',600,'ARS',1),
+	(2,'Lamparas','Phillips',2,DEFAULT,DEFAULT,'PUBLISHED',600,'ARS',1),
 	(3,'Parlantes','Phillips',1,DEFAULT,DEFAULT,'PUBLISHED',6500,'ARS',1),
-	(4,'Monitor','Samsung',1,DEFAULT,DEFAULT,'PUBLISHED',20000,'ARS',1),
-	(5,'Mouse','Genius',1,DEFAULT,DEFAULT,'PAUSED',3500,'ARS',1);
+	(4,'Monitor','Samsung',3,DEFAULT,DEFAULT,'PUBLISHED',20000,'ARS',1),
+	(5,'Mouse','Genius',4,DEFAULT,DEFAULT,'PAUSED',3500,'ARS',1);
 
